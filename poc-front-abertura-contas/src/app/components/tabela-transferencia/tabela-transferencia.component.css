@@ -1,0 +1,22 @@
+.transferencia-table-container {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  height: 100vh;
+}
+
+.transferencia-table-wrapper {
+  width: 100%; /* Garante que a tabela ocupe toda a largura do container */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+}
+
+.transferencia-table {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 800px; /* Define a largura da tabela para 800px */
+  max-width: 90%; /* Garante que a tabela não exceda 90% da largura da tela */
+  text-align: center; /* Centraliza o conteúdo da tabela */
+  margin-bottom: 20px; /* Adiciona margem inferior para separar de outros elementos */
+}

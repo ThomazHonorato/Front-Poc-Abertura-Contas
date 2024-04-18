@@ -1,0 +1,26 @@
+<app-menu-navegacao></app-menu-navegacao>
+<br><br>
+<div class="deposit-table-container">
+  <div class="deposit-table-wrapper">
+    <table class="deposit-table">
+      <thead>
+      <tr>
+        <th>ID DEPOSITO</th>
+        <th>DATA DEPOSITO</th>
+        <th>VALOR DEPOSITO</th>
+        <th>CONTA DE ORIGEM</th>
+        <th>CONTA DE DESTINO</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let deposit of deposits">
+        <td>{{ deposit.id }}</td>
+        <td>{{ deposit.date }}</td>
+        <td>{{ deposit.amount }}</td>
+        <td>{{ deposit.originAccount }}</td>
+        <td>{{ deposit.destinationAccount }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
