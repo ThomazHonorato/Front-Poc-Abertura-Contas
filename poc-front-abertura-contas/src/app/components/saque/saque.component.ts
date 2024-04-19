@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {SaqueService} from "../../services/saque/saque.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-saque',
@@ -9,7 +11,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class SaqueComponent implements OnInit {
   saqueForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private saqueService: SaqueService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.saqueForm = this.fb.group({
@@ -19,10 +21,18 @@ export class SaqueComponent implements OnInit {
     });
   }
 
-  submitForm() {
+  async submitForm() {
     if (this.saqueForm.valid) {
-      // Lógica para enviar o formulário para o servidor
-      console.log(this.saqueForm.value);
+      try {
+        const dataSaque = this.datePipe.transform(this.saqueForm.value.dataSaque, 'yyyy-MM-ddTHH:mm:ss');
+        const dadosSaque = {...this.saqueForm.value, dataSaque};
+        await this.saqueService.fazerSaque(dadosSaque);
+        console.log('Saque realizado com sucesso!');
+
+      } catch (error) {
+        console.error('Erro ao fazer Saque:', error);
+
+      }
     } else {
       alert('Por favor, preencha o formulário corretamente.');
     }

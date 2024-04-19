@@ -21,7 +21,7 @@ export class ContaComponent implements OnInit {
 
   submitForm() {
     if (this.contaForm.valid) {
-      // Lógica para enviar o formulário para o servidor
+
       console.log(this.contaForm.value);
     } else {
       alert('Por favor, preencha o formulário corretamente.');

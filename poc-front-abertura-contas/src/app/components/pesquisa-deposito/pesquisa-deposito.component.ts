@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {DepositoService} from "../../services/deposito/deposito.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-pesquisa-deposito',
@@ -7,26 +9,25 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./pesquisa-deposito.component.css']
 })
 export class PesquisaDepositoComponent {
-  depositoForm: FormGroup; // Formulário para pesquisa de saque
-  deposito: any; // Variável para armazenar o resultado da pesquisa de saque
+  depositoForm: FormGroup;
+  deposito: any;
 
-  constructor(private formBuilder: FormBuilder) {
-    // Inicializa o formulário
+  constructor(private formBuilder: FormBuilder, private depositoService: DepositoService, private datePipe: DatePipe) {
+
     this.depositoForm = this.formBuilder.group({
-      idDepositoField: [''] // Campo de pesquisa
+      idDepositoField: ['']
     });
   }
 
-  // Método para pesquisar saque
-  search() {
-    // Implemente a lógica de pesquisa aqui
-    // Por exemplo, você pode chamar um serviço que busca o saque com base no campo de pesquisa
-    // this.saque = this.saqueService.search(this.saqueForm.value.idSaqueField);
-    // Aqui, estou apenas preenchendo o saque com dados fictícios para fins de demonstração
-    this.deposito = {
-      id: '123456',
-      data: '01/01/2022',
-      valor: 100.00
-    };
+
+  async search() {
+    const idDeposito = this.depositoForm.value.idDepositoField;
+    try {
+      this.deposito = await this.depositoService.pesquisarDeposito(idDeposito);
+      this.deposito.dataDeposito = this.datePipe.transform(this.deposito.dataDeposito, 'dd/MM/yyyy HH:mm:ss');
+    } catch (error) {
+
+      console.error('Erro ao pesquisar saque:', error);
+    }
   }
 }

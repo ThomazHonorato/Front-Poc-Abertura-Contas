@@ -40,3 +40,13 @@
   width: 100%;
   margin-top: 10px; /* Espaçamento entre a tabela e o título */
 }
+
+.result-table th,
+.result-table td {
+  padding: 5px; /* Reduz ainda mais o espaçamento interno das células */
+  border: 1px solid #ddd;
+}
+
+.result-table thead th {
+  background-color: #ccc;
+}

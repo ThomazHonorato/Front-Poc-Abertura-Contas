@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {TransferenciaService} from "../../services/transferencia/transferenciaservice.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-tabela-transferencia',
@@ -6,14 +8,19 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./tabela-transferencia.component.css']
 })
 export class TabelaTransferenciaComponent implements OnInit {
-  transferencias: any[] = []; // Array para armazenar os depósitos
+  transferencias: any[] = [];
 
-  //constructor(private apiService: ApiService) { }
+  constructor(private transferenciaService: TransferenciaService, private datePipe: DatePipe) {
+  }
 
   ngOnInit(): void {
-    // Chame o método da API para obter os depósitos
-    //this.apiService.getDeposits().subscribe((data: any) => {
-    //this.deposits = data; // Atribua os dados recebidos à variável deposits
-    //});
+    this.transferenciaService.listarTransferencias().then((transferencias: any[]) => {
+      this.transferencias = transferencias.map(transferencia => {
+        transferencia.dataTransferencia = this.datePipe.transform(transferencia.dataTransferencia, 'dd/MM/yyyy 0H:0M:0S')
+        return transferencia;
+      });
+    }).catch(error => {
+      console.error('Erro ao carregar as transferencias:', error);
+    });
   }
 }

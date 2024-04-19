@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TransferenciaService} from "../../services/transferencia/transferenciaservice.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-transferencia',
@@ -9,7 +11,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class TransferenciaComponent implements OnInit {
   transferenciaForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private transferenciaService: TransferenciaService, private datePipe: DatePipe) {
+  }
 
   ngOnInit(): void {
     this.transferenciaForm = this.fb.group({
@@ -20,10 +23,18 @@ export class TransferenciaComponent implements OnInit {
     });
   }
 
-  submitForm() {
+  async submitForm() {
     if (this.transferenciaForm.valid) {
-      // Lógica para enviar o formulário para o servidor
-      console.log(this.transferenciaForm.value);
+      try {
+        const dataTransferencia = this.datePipe.transform(this.transferenciaForm.value.dataTransferencia, 'yyyy-MM-ddTHH:mm:ss');
+        const dadosTransferencia = {...this.transferenciaForm.value, dataTransferencia};
+        await this.transferenciaService.fazerTransferencia(dadosTransferencia);
+        console.log('Transferencia realizado com sucesso!');
+
+      } catch (error) {
+        console.error('Erro ao fazer transferencia:', error);
+
+      }
     } else {
       alert('Por favor, preencha o formulário corretamente.');
     }

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {SaqueService} from "../../services/saque/saque.service";
+import {DatePipe} from "@angular/common";
+import {TransferenciaService} from "../../services/transferencia/transferenciaservice.service";
 
 @Component({
   selector: 'app-pesquisa-transferencia',
@@ -7,26 +10,25 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./pesquisa-transferencia.component.css']
 })
 export class PesquisaTransferenciaComponent {
-  transferenciaForm: FormGroup; // Formulário para pesquisa de saque
-  transferencia: any; // Variável para armazenar o resultado da pesquisa de saque
+  transferenciaForm: FormGroup;
+  transferencia: any;
 
-  constructor(private formBuilder: FormBuilder) {
-    // Inicializa o formulário
+  constructor(private formBuilder: FormBuilder, private transferenciaService: TransferenciaService, private datePipe: DatePipe) {
+
     this.transferenciaForm = this.formBuilder.group({
-      idTransferenciaField: [''] // Campo de pesquisa
+      idTransferenciaField: ['']
     });
   }
 
-  // Método para pesquisar saque
-  search() {
-    // Implemente a lógica de pesquisa aqui
-    // Por exemplo, você pode chamar um serviço que busca o saque com base no campo de pesquisa
-    // this.saque = this.saqueService.search(this.saqueForm.value.idSaqueField);
-    // Aqui, estou apenas preenchendo o saque com dados fictícios para fins de demonstração
-    this.transferencia = {
-      id: '123456',
-      data: '01/01/2022',
-      valor: 100.00
-    };
+
+  async search() {
+    const idTransferencia = this.transferenciaForm.value.idTransferenciaField;
+    try {
+      this.transferencia = await this.transferenciaService.pesquisarTransferencia(idTransferencia);
+      this.transferencia.dataTransferencia = this.datePipe.transform(this.transferencia.dataTransferencia, 'dd/MM/yyyy HH:mm:ss');
+    } catch (error) {
+
+      console.error('Erro ao pesquisar saque:', error);
+    }
   }
 }

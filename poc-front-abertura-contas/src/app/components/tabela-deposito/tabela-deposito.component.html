@@ -13,12 +13,12 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let deposit of deposits">
-        <td>{{ deposit.id }}</td>
-        <td>{{ deposit.date }}</td>
-        <td>{{ deposit.amount }}</td>
-        <td>{{ deposit.originAccount }}</td>
-        <td>{{ deposit.destinationAccount }}</td>
+      <tr *ngFor="let deposito of depositos">
+        <td>{{ deposito.idDeposito }}</td>
+        <td>{{ deposito.dataDeposito }}</td>
+        <td>{{ deposito.valor }}</td>
+        <td>{{ deposito.contaOrigem }}</td>
+        <td>{{ deposito.contaDestino }}</td>
       </tr>
       </tbody>
     </table>

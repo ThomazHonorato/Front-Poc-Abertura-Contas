@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import {SaqueService} from "../../services/saque/saque.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-pesquisa-saque',
@@ -7,26 +9,25 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./pesquisa-saque.component.css']
 })
 export class PesquisaSaqueComponent {
-  saqueForm: FormGroup; // Formulário para pesquisa de saque
-  saque: any; // Variável para armazenar o resultado da pesquisa de saque
+  saqueForm: FormGroup;
+  saque: any;
 
-  constructor(private formBuilder: FormBuilder) {
-    // Inicializa o formulário
+  constructor(private formBuilder: FormBuilder, private saqueService: SaqueService, private datePipe: DatePipe) {
+
     this.saqueForm = this.formBuilder.group({
-      idSaqueField: [''] // Campo de pesquisa
+      idSaqueField: ['']
     });
   }
 
-  // Método para pesquisar saque
-  search() {
-    // Implemente a lógica de pesquisa aqui
-    // Por exemplo, você pode chamar um serviço que busca o saque com base no campo de pesquisa
-    // this.saque = this.saqueService.search(this.saqueForm.value.idSaqueField);
-    // Aqui, estou apenas preenchendo o saque com dados fictícios para fins de demonstração
-    this.saque = {
-      id: '123456',
-      data: '01/01/2022',
-      valor: 100.00
-    };
+
+  async search() {
+    const idSaque = this.saqueForm.value.idSaqueField;
+    try {
+      this.saque = await this.saqueService.pesquisarSaque(idSaque);
+      this.saque.dataSaque = this.datePipe.transform(this.saque.dataSaque, 'dd/MM/yyyy HH:mm:ss');
+    } catch (error) {
+
+      console.error('Erro ao pesquisar saque:', error);
+    }
   }
 }

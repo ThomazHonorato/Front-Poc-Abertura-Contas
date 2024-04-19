@@ -4,7 +4,7 @@
     <h2 class="form-title">Pesquisar Transferência</h2>
     <form [formGroup]="transferenciaForm" (ngSubmit)="search()">
       <div class="form-group">
-        <label for="idSaqueField">ID Transferência:</label><br>
+        <label for="idTransferenciaField">ID Transferência:</label><br>
         <input type="text" pInputText formControlName="idTransferenciaField" id="idTransferenciaField" class="form-control" />
       </div><br>
       <button pButton pRipple label="Pesquisar" class="p-button-primary"></button>
@@ -23,8 +23,8 @@
       </thead>
       <tbody>
       <tr>
-        <td>{{ transferencia.id }}</td>
-        <td>{{ transferencia.data }}</td>
+        <td>{{ transferencia.idTransferencia }}</td>
+        <td>{{ transferencia.dataTransferencia }}</td>
         <td>{{ transferencia.valor }}</td>
       </tr>
       </tbody>
